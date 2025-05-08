@@ -1,0 +1,69 @@
+name: nats-ap-cluster
+services:
+  ap_1:
+    image: nats:latest
+    command: "-c /etc/server.conf --name ap_1 -p 4221 "
+    volumes:
+      - ../ap.conf:/etc/server.conf
+    ports:
+      - "4221:4221"
+    healthcheck:
+      test: nc -z localhost 4221
+      interval: 10s
+      timeout: 5s
+      retries: 999
+  ap_2:
+    image: nats:latest
+    command: "-c /etc/server.conf --name ap_2 -p 4222 "
+    volumes:
+      - ../ap.conf:/etc/server.conf
+    ports:
+      - "4222:4222"
+    healthcheck:
+      test: nc -z localhost 4222
+      interval: 10s
+      timeout: 5s
+      retries: 999
+  ap_3:
+    image: nats:latest
+    command: "-c /etc/server.conf --name ap_3 -p 4223"
+    volumes:
+      - ../ap.conf:/etc/server.conf
+    ports:
+      - "4223:4223"
+    healthcheck:
+      test: nc -z localhost 4223
+      interval: 10s
+      timeout: 5s
+      retries: 999
+  eu_1:
+    image: nats:latest
+    command: "-c /etc/server.conf --name eu_1"
+    volumes:
+      - ../eu.conf:/etc/server.conf
+  eu_2:
+    image: nats:latest
+    command: "-c /etc/server.conf --name eu_2"
+    volumes:
+      - ../eu.conf:/etc/server.conf
+  eu_3:
+    image: nats:latest
+    command: "-c /etc/server.conf --name eu_3"
+    volumes:
+      - ../eu.conf:/etc/server.conf
+
+  na_1:
+    image: nats:latest
+    command: "-c /etc/server.conf --name na_1"
+    volumes:
+      - ../na.conf:/etc/server.conf
+  na_2:
+    image: nats:latest
+    command: "-c /etc/server.conf --name na_2"
+    volumes:
+      - ../na.conf:/etc/server.conf
+  na_3:
+    image: nats:latest
+    command: "-c /etc/server.conf --name na_3"
+    volumes:
+      - ../na.conf:/etc/server.conf
