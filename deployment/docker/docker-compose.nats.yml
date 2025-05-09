@@ -1,0 +1,72 @@
+networks:
+  nats_network:
+    driver: bridge
+
+services:
+  ap_1:
+    image: nats:latest
+    command: "-c /etc/server.conf --name ap_1 -p 4221 "
+    volumes:
+      - ../../ap.conf:/etc/server.conf
+    ports:
+      - "4221:4221"
+    networks:
+      - nats_network
+  ap_2:
+    image: nats:latest
+    command: "-c /etc/server.conf --name ap_2 "
+    volumes:
+      - ../../ap.conf:/etc/server.conf
+    networks:
+      - nats_network
+  ap_3:
+    image: nats:latest
+    command: "-c /etc/server.conf --name ap_3 "
+    volumes:
+      - ../../ap.conf:/etc/server.conf
+    networks:
+      - nats_network
+  eu_1:
+    image: nats:latest
+    command: "-c /etc/server.conf --name eu_1 -p 4224"
+    volumes:
+      - ../../eu.conf:/etc/server.conf
+    ports:
+      - "4224:4224"
+    networks:
+      - nats_network
+  eu_2:
+    image: nats:latest
+    command: "-c /etc/server.conf --name eu_2"
+    volumes:
+      - ../../eu.conf:/etc/server.conf
+    networks:
+      - nats_network
+  eu_3:
+    image: nats:latest
+    command: "-c /etc/server.conf --name eu_3"
+    volumes:
+      - ../../eu.conf:/etc/server.conf
+    networks:
+      - nats_network
+  # na_1:
+  #   image: nats:latest
+  #   command: "-c /etc/server.conf --name na_1"
+  #   volumes:
+  #     - ../../na.conf:/etc/server.conf
+  #   networks:
+  #     - nats_network
+  # na_2:
+  #   image: nats:latest
+  #   command: "-c /etc/server.conf --name na_2"
+  #   volumes:
+  #     - ../../na.conf:/etc/server.conf
+  #   networks:
+  #     - nats_network
+  # na_3:
+  #   image: nats:latest
+  #   command: "-c /etc/server.conf --name na_3"
+  #   volumes:
+  #     - ../../na.conf:/etc/server.conf
+  #   networks:
+  #     - nats_network

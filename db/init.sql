@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS "iot" (
+  id SERIAL PRIMARY KEY,
+    iot_id VARCHAR(100),
+    temperature DECIMAL,
+    condition VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
