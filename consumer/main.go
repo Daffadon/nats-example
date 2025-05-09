@@ -1,56 +1,35 @@
 package main
 
 import (
-	"context"
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 
-	"github.com/nats-io/nats.go"
+	"github.com/daffadon/learn-nats/consumer/service"
 	"github.com/nats-io/nats.go/jetstream"
 )
 
 func main() {
+	connectionName := "IoT Consumer"
+	streamName := "iot"
+	consumerName := "iot-durable"
 
-	opt, err := nats.NkeyOptionFromSeed("../user_key.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	nc, err := nats.Connect(nats.DefaultURL, opt, nats.Name("Orders Consumer"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Printf("I'm consuming stream %s at consumer %s", strings.ToUpper(streamName), strings.ToUpper(consumerName))
+	cons, ctx, nc, cancel := service.JSSetup(connectionName, streamName, consumerName)
 	defer nc.Close()
+	defer cancel()
 
-	js, err := jetstream.New(nc)
-	if err != nil {
-		log.Fatal(err)
-	}
-	ctx := context.Background()
-
-	stream, err := js.Stream(ctx, "orders")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	cons, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		Name:    "order_processor",
-		Durable: "order_processor",
+	conn := service.InitDB()
+	_, err := cons.Consume(func(msg jetstream.Msg) {
+		log.Printf("Received Message: %s \n", string(msg.Data()))
+		go service.SaveToDB(ctx, conn, msg.Data())
+		go msg.Ack()
 	})
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	cctx, err := cons.Consume(func(msg jetstream.Msg) {
-		log.Printf("Received Message: %s \n", string(msg.Subject()))
-		msg.Ack()
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer cctx.Stop()
 	quit := make(chan os.Signal, 1)
-
 	signal.Notify(quit, os.Interrupt)
 	<-quit
 }
