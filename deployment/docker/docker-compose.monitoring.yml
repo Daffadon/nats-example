@@ -1,0 +1,57 @@
+networks:
+  nats_network:
+    driver: bridge
+services:
+  prometheus-nats-exporter:
+    image: natsio/prometheus-nats-exporter:latest
+    container_name: prometheus-nats-exporter
+    environment:
+      - NATS_URL=nats://ap_1:8222
+    command:
+      - "-varz"
+      - "-jsz=all"
+      - "http://ap_1:8222"
+      - "http://ap_2:8222"
+      - "http://ap_3:8222"
+      - "http://eu_1:8222"
+      - "http://eu_2:8222"
+      - "http://eu_3:8222"
+    networks:
+      - nats_network
+    depends_on:
+      - ap_1
+      - ap_2
+      - ap_3
+      - eu_1
+      - eu_2
+      - eu_3
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - nats_network
+    depends_on:
+      - prometheus-nats-exporter
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - nats_network
+    depends_on:
+      - prometheus
+
+volumes:
+  grafana-data:
