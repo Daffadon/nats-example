@@ -10,12 +10,13 @@ import (
 )
 
 func JSSetup(connectionName, streamName, consumerName string) (jetstream.Consumer, context.Context, *nats.Conn, context.CancelFunc) {
-	opt, err := nats.NkeyOptionFromSeed("../user_key.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// opt, err := nats.NkeyOptionFromSeed("../config/nkeys/user_key.txt")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 	nc, err := nats.Connect("nats://127.0.0.1:4221",
-		opt, nats.Name(connectionName),
+		nats.UserCredentials("../config/creds/admin.creds"),
+		nats.Name(connectionName),
 		nats.Timeout(10*time.Second),
 		nats.RetryOnFailedConnect(true),
 		nats.MaxReconnects(-1),
@@ -36,8 +37,9 @@ func JSSetup(connectionName, streamName, consumerName string) (jetstream.Consume
 	}
 
 	cons, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		Name:    consumerName,
-		Durable: consumerName,
+		Name:      consumerName,
+		Durable:   consumerName,
+		AckPolicy: jetstream.AckExplicitPolicy,
 	})
 	if err != nil {
 		log.Fatal(err)
