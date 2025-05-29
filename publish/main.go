@@ -28,7 +28,7 @@ func main() {
 	iotIDs := []string{"sensor1", "sensor2", "sensor3", "sensor4", "sensor5"}
 	temperatures := []float32{22.5, 25.0, 18.3, 30.1, 15.8}
 
-	ticker := time.NewTicker(1 * time.Second)
+	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 
 	for {

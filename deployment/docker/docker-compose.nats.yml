@@ -55,27 +55,27 @@ services:
       - ../../config/creds/resolver.conf:/etc/resolve.conf
     networks:
       - nats_network
-  # na_1:
-  #   image: nats:latest
-  #   command: "-c /etc/server.conf --name na_1"
-  #   volumes:
-  #     - ../../config/creds/na.conf:/etc/server.conf
-  # - ../../config/creds/resolver.conf:/etc/resolve.conf
-  #   networks:
-  #     - nats_network
-  # na_2:
-  #   image: nats:latest
-  #   command: "-c /etc/server.conf --name na_2"
-  #   volumes:
-  #     - ../../config/creds/na.conf:/etc/server.conf
-  # - ../../config/creds/resolver.conf:/etc/resolve.conf
-  #   networks:
-  #     - nats_network
-  # na_3:
-  #   image: nats:latest
-  #   command: "-c /etc/server.conf --name na_3"
-  #   volumes:
-  #     - ../../config/creds/na.conf:/etc/server.conf
-  # - ../../config/creds/resolver.conf:/etc/resolve.conf
-  #   networks:
-  #     - nats_network
+  na_1:
+    image: nats:latest
+    command: "-c /etc/server.conf --name na_1 -m 8222"
+    volumes:
+      - ../../config/creds/na.conf:/etc/server.conf
+      - ../../config/creds/resolver.conf:/etc/resolve.conf
+    networks:
+      - nats_network
+  na_2:
+    image: nats:latest
+    command: "-c /etc/server.conf --name na_2 -m 8222"
+    volumes:
+      - ../../config/creds/na.conf:/etc/server.conf
+      - ../../config/creds/resolver.conf:/etc/resolve.conf
+    networks:
+      - nats_network
+  na_3:
+    image: nats:latest
+    command: "-c /etc/server.conf --name na_3 -m 8222"
+    volumes:
+      - ../../config/creds/na.conf:/etc/server.conf
+      - ../../config/creds/resolver.conf:/etc/resolve.conf
+    networks:
+      - nats_network

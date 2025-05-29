@@ -27,7 +27,6 @@ if ! nsc describe operator NATS_OPERATOR &>/dev/null; then
   nsc add user --account ADMIN_ROLE --name admin
   # change regular account to have js access
   nsc edit account -n ADMIN_ROLE --js-mem-storage $((1024 * 1024 * 1024)) --js-disk-storage $((50 * 1024 * 1024 * 1024)) --js-streams 10 --js-consumer 10
-fi
 else
   echo "Operator NATS_OPERATOR already exists. Skipping creation."
   nsc select operator NATS_OPERATOR
@@ -40,8 +39,8 @@ nsc generate creds -n admin >config/creds/admin.creds
 echo "generate user regular creds to config/creds/sys.creds"
 nsc select account SYS
 nsc generate creds -n sys >config/creds/sys.creds
-# generate resolver.conf
 
+# generate resolver.conf
 echo "generate resolver with nats-resolver base"
 nsc generate config --nats-resolver >config/creds/resolver.conf
 

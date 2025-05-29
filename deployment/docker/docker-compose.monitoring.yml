@@ -16,6 +16,9 @@ services:
       - "http://eu_1:8222"
       - "http://eu_2:8222"
       - "http://eu_3:8222"
+      - "http://na_1:8222"
+      - "http://na_2:8222"
+      - "http://na_3:8222"
     networks:
       - nats_network
     depends_on:
@@ -25,6 +28,9 @@ services:
       - eu_1
       - eu_2
       - eu_3
+      - na_1
+      - na_2
+      - na_3
 
   prometheus:
     image: prom/prometheus:latest
