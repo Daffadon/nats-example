@@ -10,12 +10,26 @@ if ! command -v nsc &>/dev/null; then
   # install nsc
   echo "nsc package is not exist. Installing nsc..."
   if ! command -v curl &>/dev/null; then
-    echo "curl is not installed. Please install curl and rerun this script."
-    exit 1
+    echo "curl is not installed. Installing curl..."
+    if command -v apt-get &>/dev/null; then
+      sudo apt-get update && sudo apt-get install -y curl
+    elif command -v yum &>/dev/null; then
+      sudo yum install -y curl
+    else
+      echo "Unsupported package manager. Please install curl manually."
+      exit 1
+    fi
   fi
   if ! command -v zip &>/dev/null && ! command -v unzip &>/dev/null; then
-    echo "zip/unzip is not installed. Please install zip and unzip and rerun this script."
-    exit 1
+    echo "zip/unzip is not installed. Installing zip and unzip..."
+    if command -v apt-get &>/dev/null; then
+      sudo apt-get update && sudo apt-get install -y zip unzip
+    elif command -v yum &>/dev/null; then
+      sudo yum install -y zip unzip
+    else
+      echo "Unsupported package manager. Please install zip and unzip manually."
+      exit 1
+    fi
   fi
   curl -L https://github.com/nats-io/nsc/releases/latest/download/nsc-linux-amd64.zip -o nsc.zip
   unzip nsc.zip -d /usr/local/bin
