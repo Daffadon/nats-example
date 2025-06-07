@@ -81,6 +81,13 @@ if ! groups "$USER" | grep -qw docker; then
   echo "Adding user $USER to docker group..."
   sudo usermod -aG docker "$USER"
   echo "You may need to log out and log back in for group changes to take effect."
+  echo "Attempting to refresh group membership for current session..."
+  if command -v newgrp &>/dev/null; then
+    echo "Running 'newgrp docker' to update group membership in this shell."
+    exec newgrp docker
+  else
+    echo "'newgrp' command not found. Please log out and log back in manually."
+  fi
 else
   echo "User $USER is already in the docker group."
 fi
