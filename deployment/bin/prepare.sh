@@ -76,15 +76,6 @@ if ! command -v docker &>/dev/null; then
 else
   echo "Docker is already installed."
 fi
-
-echo "Checking Docker Compose installation..."
-if ! command -v docker-compose &>/dev/null; then
-  echo "Docker Compose is not installed. Installing Docker Compose..."
-  sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  sudo chmod +x /usr/local/bin/docker-compose
-else
-  echo "Docker Compose is already installed."
-fi
 # Add current user to docker group
 if ! groups "$USER" | grep -qw docker; then
   echo "Adding user $USER to docker group..."
