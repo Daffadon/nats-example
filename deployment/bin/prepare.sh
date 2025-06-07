@@ -9,6 +9,14 @@ echo "Checking nsc package....."
 if ! command -v nsc &>/dev/null; then
   # install nsc
   echo "nsc package is not exist. Installing nsc..."
+  if ! command -v curl &>/dev/null; then
+    echo "curl is not installed. Please install curl and rerun this script."
+    exit 1
+  fi
+  if ! command -v zip &>/dev/null && ! command -v unzip &>/dev/null; then
+    echo "zip/unzip is not installed. Please install zip and unzip and rerun this script."
+    exit 1
+  fi
   curl -L https://github.com/nats-io/nsc/releases/latest/download/nsc-linux-amd64.zip -o nsc.zip
   unzip nsc.zip -d /usr/local/bin
   chmod +x /usr/local/bin/nsc
