@@ -32,8 +32,8 @@ if ! command -v nsc &>/dev/null; then
     fi
   fi
   curl -L https://github.com/nats-io/nsc/releases/latest/download/nsc-linux-amd64.zip -o nsc.zip
-  unzip nsc.zip -d /usr/local/bin
-  chmod +x /usr/local/bin/nsc
+  sudo unzip nsc.zip -d /usr/local/bin
+  sudo chmod +x /usr/local/bin/nsc
   rm nsc.zip
 fi
 echo "nsc has been installed...."
@@ -84,4 +84,12 @@ if ! command -v docker-compose &>/dev/null; then
   chmod +x /usr/local/bin/docker-compose
 else
   echo "Docker Compose is already installed."
+fi
+# Add current user to docker group
+if ! groups "$USER" | grep -qw docker; then
+  echo "Adding user $USER to docker group..."
+  sudo usermod -aG docker "$USER"
+  echo "You may need to log out and log back in for group changes to take effect."
+else
+  echo "User $USER is already in the docker group."
 fi
