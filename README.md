@@ -23,6 +23,8 @@ Even though the repo includes the creds and resolver configuration, you still ne
 
 (I'm sorry that this is just available with unix and unix-like base. So for Windows user, i suggest you to use WSL with docker support instead)
 
+
+
 ## Preparation
 
 before run the script. clone this repo first to your host by using below command
@@ -60,7 +62,7 @@ For every nats server in the docker.compose.nats.yml, i've mount the config for 
 Before we jump the example, let's set up the monitoring dashboard. I've provide the grafana dashboard that i got from prometheus-nats-exporter example and prometheus config for scraping from what nats-prometheus-exporter exported.
 
 1. Open http://localhost:3000 to open Grafana, Default username/password is admin/admin
-2. Add datasource > prometheus > fill "http://prometheus:9090" in connection > save & test
+2. Connection > datasource > prometheus > fill "http://prometheus:9090" without quote in connection input > save & test
 
 <p align="center">
   <img src="assets/prom-connection.png" width="300" alt="NATS Logo">
@@ -71,6 +73,8 @@ Before we jump the example, let's set up the monitoring dashboard. I've provide 
 <p align="center">
   <img src="assets/grafana-example.png" width="300" alt="NATS Logo">
 </p>
+
+> **Note:** this is using golang version 1.24.2 as you can see in the go mod.
 
 ## Example
 
@@ -93,5 +97,6 @@ cd consumer && go run main.go
 to stop all of the services, run below command from the root of the project:
 
 ```bash
+chmod +x ./deployment/bin/stop.sh
 ./deployment/bin/stop.sh
 ```
