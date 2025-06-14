@@ -74,9 +74,9 @@ Before we jump the example, let's set up the monitoring dashboard. I've provide 
   <img src="assets/grafana-example.png" width="300" alt="NATS Logo">
 </p>
 
-> **Note:** this is using golang version 1.24.2 as you can see in the go mod.
-
 ## Example
+
+> **Note:** this is using golang version 1.24.2 as you can see in the go.mod.
 
 This repository has example how to use jetstream publisher and consumer. You can see from the architecture, the publisher is send data to a subject from EU_1 and client get the data via consumer in AP_1. Consumer here is not a client, consumer is a component that like it's name has a goal to consume and live in the nats server. the client just call the consumer, identified by a name, to retrieve the data.
 
