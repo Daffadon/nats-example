@@ -33,7 +33,7 @@ before run the script. clone this repo first to your host by using below command
 git clone https://github.com/Daffadon/nats-example --depth 1
 ```
 
-After clone go to your project and execure below command
+After clone go to your project and execute below command
 
 ```bash
 chmod +x ./deployment/bin/prepare.sh
